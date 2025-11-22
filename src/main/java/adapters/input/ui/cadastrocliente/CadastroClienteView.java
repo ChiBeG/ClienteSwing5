@@ -56,7 +56,7 @@ public class CadastroClienteView extends JFrame {
      * Cria a view e seus componentes
      */
 	public CadastroClienteView(UFPort ufService) {
-		super("Cadastro de Clientes - versão 5");
+		super("Cadastro de Clientes - versão 6");
 
 		ufMap = ufService.getUFs();
 
