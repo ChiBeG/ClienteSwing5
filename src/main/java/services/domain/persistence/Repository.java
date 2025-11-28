@@ -1,21 +1,9 @@
 package services.domain.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import model.Cliente;
-import model.ClienteBuilder;
 
 public abstract class Repository{
 
-    //     private final IClienteDAO dao = DAOFactory.create(DAOType.CLIENTE);
-
-    // public Cliente findByCPF(Long cpf) {
-    //     var dto = dao.findByCPF(cpf);
-
-    //     return dto == null ? null : ClienteBuilder.buildFromDTO(dto);
-    // }
+    // private final IClienteDAO dao = DAOFactory.create(DAOType.CLIENTE);
 
     // @Override
     // public void add() {
@@ -51,5 +39,4 @@ public abstract class Repository{
     // }
 
 
- 
 }
