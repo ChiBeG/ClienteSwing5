@@ -1,42 +1,44 @@
 package services.domain.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public abstract class Repository{
+public abstract class Repository<T extends Entity, D extends EntityDTO> implements IRepository<T> {
 
-    // private final IClienteDAO dao = DAOFactory.create(DAOType.CLIENTE);
+    protected abstract IDAO<D> getDAO();
 
-    // @Override
-    // public void add() {
-    //     if (entity.getId() == null) {
-    //         // Gera ID do objeto para inseri-lo no BD
-    //         entity.setId(UUID.randomUUID());
-    //         dao.insert(ClienteDTO.fromEntity(entity));
-    //     }
-    //     else {
-    //         dao.update(ClienteDTO.fromEntity(entity));
-    //     }
-    // }
+    protected abstract D toDTO(T entity);
 
-    // @Override
-    // public void remove() {
-    //     if (entity.getId() != null) {
-    //         dao.delete(ClienteDTO.fromEntity(entity));
-    //         // Define ID = nulo porque objeto está somente na memória e não mais no BD
-    //         entity.setId(null);
-    //     }
-    // }
+    protected abstract T toEntity(D dto);
 
-    // @Override
-    // public List<Cliente> findAll() {
-    //     List<Cliente> entidades = new ArrayList<>();
+    @Override
+    public void add(T entity) {
+        if (entity.getId() == null) {
+            // Gera ID do objeto para inseri-lo no BD
+            entity.setId(UUID.randomUUID());
+            getDAO().insert(toDTO(entity));
+        }
+        else {
+            getDAO().update(toDTO(entity));
+        }
+    }
 
-    //     // Cria um carro para cada DTO
-    //     for (var dto : dao.findAll()) {
-    //         entidades.add(ClienteBuilder.buildFromDTO(dto));
-    //     }
+    @Override
+    public void remove(T entity) {
+        if (entity.getId() != null) {
+            getDAO().delete(toDTO(entity));
+            entity.setId(null);
+        }
+    }
 
-    //     return entidades;
-    // }
+    @Override
+    public List<T> findAll() {
+        List<T> entidades = new ArrayList<>();
+        for (var dto : getDAO().findAll()) {
+            entidades.add(toEntity(dto));
+        }
 
-
+        return entidades;
+    }
 }
